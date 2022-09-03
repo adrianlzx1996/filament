@@ -24,7 +24,8 @@
                              TextInput::make('name')
                                       ->required(),
                              TextInput::make('price')
-                                      ->required(),
+                                      ->required()
+                                      ->rule('numeric'),
                          ])
             ;
         }
