@@ -29,8 +29,12 @@
         : Table {
             return $table
                 ->columns([
-                              //
+                              Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
+                              Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
+                              Tables\Columns\TextColumn::make('email')->searchable()->sortable(),
+                              Tables\Columns\TextColumn::make('created_at')->date('d/M/y h:i a')->sortable(),
                           ])
+                ->defaultSort('id', 'desc')
                 ->filters([
                               //
                           ])
