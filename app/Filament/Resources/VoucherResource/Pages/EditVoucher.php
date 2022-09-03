@@ -10,7 +10,7 @@
     class EditVoucher extends EditRecord
     {
         use RedirectAfterCreateEdit;
-    
+
         protected static string $resource = VoucherResource::class;
 
         protected function getActions ()
@@ -19,5 +19,13 @@
             return [
                 Actions\DeleteAction::make(),
             ];
+        }
+
+        protected function beforeFill ()
+        {
+            if ( $this->record->payments()->exists() ) {
+                $this->notify('danger', 'This voucher has been used, you cannot edit it.');
+                return redirect($this->getResource()::getUrl('index'));
+            }
         }
     }
