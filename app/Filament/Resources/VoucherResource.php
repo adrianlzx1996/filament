@@ -49,6 +49,12 @@
                               Tables\Columns\TextColumn::make('discount_percent')
                                                        ->label('Discount (%)'),
                               Tables\Columns\TextColumn::make('product.name'),
+                              Tables\Columns\TextColumn::make('payments_count')
+                                                       ->counts('payments')
+                                                       ->label('Time Used')
+                                                       ->extraAttributes([
+                                                                             'class' => 'text-center',
+                                                                         ]),
                           ])
                 ->filters([
                               //
