@@ -5,11 +5,13 @@
     use App\Filament\Resources\ProductResource\Pages;
     use App\Filament\Resources\ProductResource\RelationManagers;
     use App\Models\Product;
+    use Closure;
     use Filament\Forms\Components\TextInput;
     use Filament\Resources\Form;
     use Filament\Resources\Resource;
     use Filament\Resources\Table;
     use Filament\Tables;
+    use Illuminate\Support\Str;
 
     class ProductResource extends Resource
     {
@@ -22,6 +24,13 @@
             return $form
                 ->schema([
                              TextInput::make('name')
+                                      ->required()
+                                      ->reactive()
+                                      ->afterStateUpdated(function ( Closure $set, $state ) {
+                                          $set('slug', Str::slug($state));
+                                      }),
+                             TextInput::make('slug')
+                                      ->unique()
                                       ->required(),
                              TextInput::make('price')
                                       ->required()
