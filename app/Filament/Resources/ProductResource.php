@@ -39,6 +39,7 @@
                               Tables\Columns\TextColumn::make('price')
                                                        ->sortable(),
                           ])
+                ->defaultSort('price', 'DESC')
                 ->filters([
                               //
                           ])
