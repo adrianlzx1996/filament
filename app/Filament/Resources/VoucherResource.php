@@ -23,10 +23,17 @@
             return $form
                 ->schema([
                              TextInput::make('code')
-                                      ->required(),
+                                      ->required()
+                                      ->unique(ignoreRecord: true),
                              TextInput::make('discount_percent')
                                       ->label('Discount (%)')
                                       ->required()
+                                      ->numeric()
+                                      ->default(10)
+                                      ->extraInputAttributes([
+                                                                 'min' => 1,
+                                                                 'max' => 100,
+                                                             ])
                                       ->rule('numeric'),
                              Select::make('product_id')
                                    ->relationship('product', 'name'),
