@@ -5,6 +5,7 @@
     use App\Filament\Resources\ProductResource\Pages;
     use App\Filament\Resources\ProductResource\RelationManagers;
     use App\Models\Product;
+    use Filament\Forms\Components\TextInput;
     use Filament\Resources\Form;
     use Filament\Resources\Resource;
     use Filament\Resources\Table;
@@ -20,7 +21,10 @@
         : Form {
             return $form
                 ->schema([
-                             //
+                             TextInput::make('name')
+                                      ->required(),
+                             TextInput::make('price')
+                                      ->required(),
                          ])
             ;
         }
@@ -29,7 +33,11 @@
         : Table {
             return $table
                 ->columns([
-                              //
+                              Tables\Columns\TextColumn::make('name')
+                                                       ->sortable()
+                                                       ->searchable(),
+                              Tables\Columns\TextColumn::make('price')
+                                                       ->sortable(),
                           ])
                 ->filters([
                               //
