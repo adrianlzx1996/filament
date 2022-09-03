@@ -25,6 +25,7 @@
                              TextInput::make('code')
                                       ->required(),
                              TextInput::make('discount_percent')
+                                      ->label('Discount (%)')
                                       ->required()
                                       ->rule('numeric'),
                              Select::make('product_id')
@@ -38,7 +39,8 @@
             return $table
                 ->columns([
                               Tables\Columns\TextColumn::make('code'),
-                              Tables\Columns\TextColumn::make('discount_percent'),
+                              Tables\Columns\TextColumn::make('discount_percent')
+                                                       ->label('Discount (%)'),
                               Tables\Columns\TextColumn::make('product.name'),
                           ])
                 ->filters([
