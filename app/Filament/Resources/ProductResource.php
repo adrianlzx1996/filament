@@ -6,6 +6,7 @@
     use App\Filament\Resources\ProductResource\RelationManagers;
     use App\Models\Product;
     use Closure;
+    use Filament\Forms\Components\FileUpload;
     use Filament\Forms\Components\TextInput;
     use Filament\Resources\Form;
     use Filament\Resources\Resource;
@@ -30,11 +31,12 @@
                                           $set('slug', Str::slug($state));
                                       }),
                              TextInput::make('slug')
-                                      ->unique()
+                                      ->unique(ignoreRecord: true)
                                       ->required(),
                              TextInput::make('price')
                                       ->required()
                                       ->rule('numeric'),
+                             FileUpload::make('image'),
                          ])
             ;
         }
@@ -43,6 +45,9 @@
         : Table {
             return $table
                 ->columns([
+                              Tables\Columns\ImageColumn::make('image')
+                                                        ->width(50)
+                                                        ->height(50),
                               Tables\Columns\TextColumn::make('name')
                                                        ->sortable()
                                                        ->searchable(),
