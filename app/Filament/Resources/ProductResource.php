@@ -38,7 +38,8 @@
                                                        ->sortable()
                                                        ->searchable(),
                               Tables\Columns\TextColumn::make('price')
-                                                       ->sortable(),
+                                                       ->sortable()
+                                                       ->money('myr'),
                           ])
                 ->defaultSort('price', 'DESC')
                 ->filters([
