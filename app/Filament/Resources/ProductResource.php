@@ -7,7 +7,6 @@
     use App\Models\Product;
     use Closure;
     use Filament\Forms\Components\FileUpload;
-    use Filament\Forms\Components\MultiSelect;
     use Filament\Forms\Components\TextInput;
     use Filament\Resources\Form;
     use Filament\Resources\Resource;
@@ -42,8 +41,8 @@
                                       ->required()
                                       ->rule('numeric'),
                              FileUpload::make('image'),
-                             MultiSelect::make('tags')
-                                        ->relationship('tags', 'name'),
+                             //                             MultiSelect::make('tags')
+                             //                                        ->relationship('tags', 'name'),
                          ])
             ;
         }
@@ -79,7 +78,7 @@
         : array
         {
             return [
-                //
+                RelationManagers\TagsRelationManager::class,
             ];
         }
 
