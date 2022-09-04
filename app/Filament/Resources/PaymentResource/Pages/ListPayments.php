@@ -1,19 +1,27 @@
 <?php
 
-namespace App\Filament\Resources\PaymentResource\Pages;
+    namespace App\Filament\Resources\PaymentResource\Pages;
 
-use App\Filament\Resources\PaymentResource;
-use Filament\Pages\Actions;
-use Filament\Resources\Pages\ListRecords;
+    use App\Filament\Resources\PaymentResource;
+    use Filament\Pages\Actions;
+    use Filament\Resources\Pages\ListRecords;
+    use Illuminate\Contracts\View\View;
 
-class ListPayments extends ListRecords
-{
-    protected static string $resource = PaymentResource::class;
-
-    protected function getActions(): array
+    class ListPayments extends ListRecords
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        protected static string $resource = PaymentResource::class;
+
+        protected function getActions ()
+        : array
+        {
+            return [
+                Actions\CreateAction::make(),
+            ];
+        }
+
+        protected function getTableContentFooter ()
+        : View
+        {
+            return view('filament.payments.footer');
+        }
     }
-}
