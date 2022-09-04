@@ -70,21 +70,13 @@
             ;
         }
 
-        public static function getRelations ()
-        : array
-        {
-            return [
-                //
-            ];
-        }
-
         public static function getPages ()
         : array
         {
             return [
-                'index'  => Pages\ListVouchers::route('/'),
-                'create' => Pages\CreateVoucher::route('/create'),
-                'edit'   => Pages\EditVoucher::route('/{record}/edit'),
+                'index' => Pages\ListVouchers::route('/'),
+                //                'create' => Pages\CreateVoucher::route('/create'),
+                //                'edit'   => Pages\EditVoucher::route('/{record}/edit'),
             ];
         }
     }
