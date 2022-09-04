@@ -6,6 +6,7 @@
     use App\Filament\Resources\ProductResource\RelationManagers;
     use App\Models\Product;
     use Closure;
+    use Filament\Forms\Components\Card;
     use Filament\Forms\Components\FileUpload;
     use Filament\Forms\Components\TextInput;
     use Filament\Resources\Form;
@@ -28,15 +29,19 @@
         : Form {
             return $form
                 ->schema([
-                             TextInput::make('name')
-                                      ->required()
-                                      ->reactive()
-                                      ->afterStateUpdated(function ( Closure $set, $state ) {
-                                          $set('slug', Str::slug($state));
-                                      }),
-                             TextInput::make('slug')
-                                      ->unique(ignoreRecord: true)
-                                      ->required(),
+                             Card::make()
+                                 ->schema([
+                                              TextInput::make('name')
+                                                       ->required()
+                                                       ->reactive()
+                                                       ->afterStateUpdated(function ( Closure $set, $state ) {
+                                                           $set('slug', Str::slug($state));
+                                                       }),
+                                              TextInput::make('slug')
+                                                       ->unique(ignoreRecord: true)
+                                                       ->required(),
+                                          ])->columns(2),
+
                              TextInput::make('price')
                                       ->required()
                                       ->rule('numeric'),
