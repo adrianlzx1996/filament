@@ -7,9 +7,9 @@
     use App\Models\Product;
     use Closure;
     use Filament\Forms\Components\FileUpload;
-    use Filament\Forms\Components\Tabs;
-    use Filament\Forms\Components\Tabs\Tab;
     use Filament\Forms\Components\TextInput;
+    use Filament\Forms\Components\Wizard;
+    use Filament\Forms\Components\Wizard\Step;
     use Filament\Resources\Form;
     use Filament\Resources\Resource;
     use Filament\Resources\Table;
@@ -30,28 +30,31 @@
         : Form {
             return $form
                 ->schema([
-                             Tabs::make('Product')->tabs([
-                                                             Tab::make('Product Details')
-                                                                ->schema([
-                                                                             TextInput::make('name')
-                                                                                      ->required()
-                                                                                      ->reactive()
-                                                                                      ->afterStateUpdated(function ( Closure $set, $state ) {
-                                                                                          $set('slug', Str::slug($state));
-                                                                                      }),
-                                                                             TextInput::make('slug')
-                                                                                      ->unique(ignoreRecord: true)
-                                                                                      ->required(),
-                                                                         ]),
+                             Wizard::make(
+                                 [
+                                     Step::make('Product Details')
+                                         ->schema([
+                                                      TextInput::make('name')
+                                                               ->required()
+                                                               ->reactive()
+                                                               ->afterStateUpdated(function ( Closure $set, $state ) {
+                                                                   $set('slug', Str::slug($state));
+                                                               }),
+                                                      TextInput::make('slug')
+                                                               ->unique(ignoreRecord: true)
+                                                               ->required(),
+                                                  ]),
 
-                                                             Tab::make('Price')
-                                                                ->schema([
-                                                                             TextInput::make('price')
-                                                                                      ->required()
-                                                                                      ->rule('numeric'),
-                                                                         ]
-                                                                ),
-                                                         ]),
+                                     Step::make('Price')
+                                         ->schema([
+                                                      TextInput::make('price')
+                                                               ->required()
+                                                               ->rule('numeric'),
+                                                  ]
+                                         ),
+                                 ]
+                             )
+                                   ->columnSpan('full'),
                              FileUpload::make('image'),
                              //                             MultiSelect::make('tags')
                              //                                        ->relationship('tags', 'name'),
