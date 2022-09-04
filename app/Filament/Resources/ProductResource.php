@@ -7,7 +7,8 @@
     use App\Models\Product;
     use Closure;
     use Filament\Forms\Components\FileUpload;
-    use Filament\Forms\Components\Section;
+    use Filament\Forms\Components\Tabs;
+    use Filament\Forms\Components\Tabs\Tab;
     use Filament\Forms\Components\TextInput;
     use Filament\Resources\Form;
     use Filament\Resources\Resource;
@@ -29,24 +30,28 @@
         : Form {
             return $form
                 ->schema([
-                             Section::make('Product Details')
-                                    ->description('Enter the product details.')
-                                    ->collapsible()
-                                    ->schema([
-                                                 TextInput::make('name')
-                                                          ->required()
-                                                          ->reactive()
-                                                          ->afterStateUpdated(function ( Closure $set, $state ) {
-                                                              $set('slug', Str::slug($state));
-                                                          }),
-                                                 TextInput::make('slug')
-                                                          ->unique(ignoreRecord: true)
-                                                          ->required(),
-                                             ]),
+                             Tabs::make('Product')->tabs([
+                                                             Tab::make('Product Details')
+                                                                ->schema([
+                                                                             TextInput::make('name')
+                                                                                      ->required()
+                                                                                      ->reactive()
+                                                                                      ->afterStateUpdated(function ( Closure $set, $state ) {
+                                                                                          $set('slug', Str::slug($state));
+                                                                                      }),
+                                                                             TextInput::make('slug')
+                                                                                      ->unique(ignoreRecord: true)
+                                                                                      ->required(),
+                                                                         ]),
 
-                             TextInput::make('price')
-                                      ->required()
-                                      ->rule('numeric'),
+                                                             Tab::make('Price')
+                                                                ->schema([
+                                                                             TextInput::make('price')
+                                                                                      ->required()
+                                                                                      ->rule('numeric'),
+                                                                         ]
+                                                                ),
+                                                         ]),
                              FileUpload::make('image'),
                              //                             MultiSelect::make('tags')
                              //                                        ->relationship('tags', 'name'),
