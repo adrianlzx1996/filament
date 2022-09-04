@@ -21,6 +21,8 @@
 
         protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+        protected static ?string $recordTitleAttribute = 'name';
+
         public static function table ( Table $table )
         : Table {
             return $table
@@ -111,5 +113,11 @@
         : bool
         {
             return false;
+        }
+
+        public static function getGloballySearchableAttributes ()
+        : array
+        {
+            return [ 'name', 'email' ];
         }
     }
