@@ -9,6 +9,7 @@
     use Filament\Resources\Resource;
     use Filament\Resources\Table;
     use Filament\Tables;
+    use Illuminate\Database\Eloquent\Model;
 
     class UserResource extends Resource
     {
@@ -42,7 +43,7 @@
                               Tables\Actions\EditAction::make(),
                           ])
                 ->bulkActions([
-                                  Tables\Actions\DeleteBulkAction::make(),
+//                                  Tables\Actions\DeleteBulkAction::make(),
                               ])
             ;
         }
@@ -59,9 +60,26 @@
         : array
         {
             return [
-                'index'  => Pages\ListUsers::route('/'),
-                'create' => Pages\CreateUser::route('/create'),
-                'edit'   => Pages\EditUser::route('/{record}/edit'),
+                'index' => Pages\ListUsers::route('/'),
+                //                'create' => Pages\CreateUser::route('/create'),
+                'edit'  => Pages\EditUser::route('/{record}/edit'),
             ];
+        }
+
+        public static function canCreate ()
+        : bool
+        {
+            return false;
+        }
+
+        public static function canDelete ( Model $record )
+        : bool {
+            return false;
+        }
+
+        public static function canDeleteAny ()
+        : bool
+        {
+            return false;
         }
     }
