@@ -5,26 +5,21 @@
     use App\Filament\Resources\UserResource\Pages;
     use App\Filament\Resources\UserResource\RelationManagers;
     use App\Models\User;
+    use Filament\Facades\Filament;
+    use Filament\Forms\Components\TextInput;
     use Filament\Resources\Form;
     use Filament\Resources\Resource;
     use Filament\Resources\Table;
     use Filament\Tables;
     use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Support\Facades\Hash;
+    use Illuminate\Validation\Rules\Password;
 
     class UserResource extends Resource
     {
         protected static ?string $model = User::class;
 
         protected static ?string $navigationIcon = 'heroicon-o-collection';
-
-        public static function form ( Form $form )
-        : Form {
-            return $form
-                ->schema([
-                             //
-                         ])
-            ;
-        }
 
         public static function table ( Table $table )
         : Table {
@@ -41,10 +36,45 @@
                           ])
                 ->actions([
                               Tables\Actions\EditAction::make(),
+                              Tables\Actions\Action::make('changePassword')
+                                                   ->form([
+                                                              TextInput::make('new_password')
+                                                                       ->password()
+                                                                       ->label("New Password")
+                                                                       ->required()
+                                                                       ->rule(Password::default()),
+                                                              TextInput::make('new_password_confirmation')
+                                                                       ->password()
+                                                                       ->label("Confirm New Password")
+                                                                       ->same('new_password')
+                                                                       ->required()
+                                                                       ->rule(Password::default()),
+                                                          ])
+                                                   ->action(function ( User $record, array $data ) {
+                                                       $record->update([
+                                                                           'password' => Hash::make($data['new_password']),
+                                                                       ]);
+
+                                                       Filament::notify('success', 'Password updated successfully.');
+                                                   }),
                           ])
                 ->bulkActions([
 //                                  Tables\Actions\DeleteBulkAction::make(),
                               ])
+            ;
+        }
+
+        public static function form ( Form $form )
+        : Form {
+            return $form
+                ->schema([
+                             TextInput::make('name')
+                                      ->autofocus()
+                                      ->required(),
+                             TextInput::make('email')
+                                      ->email()
+                                      ->required(),
+                         ])
             ;
         }
 
