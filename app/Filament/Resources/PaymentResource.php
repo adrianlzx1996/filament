@@ -26,8 +26,12 @@
                               TextColumn::make('created_at')
                                         ->label('Payment Time')
                                         ->sortable(),
-                              TextColumn::make('product.name'),
-                              TextColumn::make('user.name')->label('User Name'),
+                              TextColumn::make('product.name')
+                                        ->url(fn ( Payment $record ) => ProductResource::getUrl('edit', [ 'record' => $record->product ]))
+                                        ->openUrlInNewTab(),
+                              TextColumn::make('user.name')->label('User Name')
+                                        ->url(fn ( Payment $record ) => UserResource::getUrl('edit', [ 'record' => $record->user ]))
+                                        ->openUrlInNewTab(),
                               TextColumn::make('user.email')->label('User Email'),
                               TextColumn::make('voucher.code'),
                               TextColumn::make('subtotal')->money('myr'),
