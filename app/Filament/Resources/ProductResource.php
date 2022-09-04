@@ -6,7 +6,7 @@
     use App\Filament\Resources\ProductResource\RelationManagers;
     use App\Models\Product;
     use Closure;
-    use Filament\Forms\Components\Card;
+    use Filament\Forms\Components\Fieldset;
     use Filament\Forms\Components\FileUpload;
     use Filament\Forms\Components\TextInput;
     use Filament\Resources\Form;
@@ -29,18 +29,18 @@
         : Form {
             return $form
                 ->schema([
-                             Card::make()
-                                 ->schema([
-                                              TextInput::make('name')
-                                                       ->required()
-                                                       ->reactive()
-                                                       ->afterStateUpdated(function ( Closure $set, $state ) {
-                                                           $set('slug', Str::slug($state));
-                                                       }),
-                                              TextInput::make('slug')
-                                                       ->unique(ignoreRecord: true)
-                                                       ->required(),
-                                          ])->columns(2),
+                             Fieldset::make('Product Details')
+                                     ->schema([
+                                                  TextInput::make('name')
+                                                           ->required()
+                                                           ->reactive()
+                                                           ->afterStateUpdated(function ( Closure $set, $state ) {
+                                                               $set('slug', Str::slug($state));
+                                                           }),
+                                                  TextInput::make('slug')
+                                                           ->unique(ignoreRecord: true)
+                                                           ->required(),
+                                              ]),
 
                              TextInput::make('price')
                                       ->required()
